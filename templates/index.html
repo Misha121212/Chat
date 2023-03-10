@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask Chat Example</title>
+  </head>
+  <body>
+    <h1>Flask Chat Example</h1>
+    <div id="chat">
+      <ul id="messages">
+        {% for message in messages %}
+          <li>{{ message.text }}</li>
+        {% endfor %}
+      </ul>
+      <form>
+        <input id="input" type="text" autocomplete="off">
+        <button id="send">Send</button>
+      </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      var socket = io();
+
+      // add new message to list
+      function addMessage(msg) {
+        var li = document.createElement('li');
+        li.textContent = msg;
+        document.getElementById('messages').appendChild(li);
+      }
+
+      // send message to server
+      function sendMessage() {
+        var msg = document.getElementById('input').value;
+        socket.emit('message', msg);
+        document.getElementById('input').value = '';
+        return false;
+      }
+
+      // handle message received from server
+      socket.on('response', function(data) {
+        addMessage(data.data);
+      });
+
+      // handle form submission
+      document.getElementById('send').onclick = sendMessage;
+      document.getElementById('input').onkeypress = function(event) {
+        if (event.keyCode == 13) {
+          sendMessage();
+        }
+      };
+    </script>
+  </body>
+</html>
