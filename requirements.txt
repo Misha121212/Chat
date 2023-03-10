@@ -1,4 +1,0 @@
-python-socketio
-Flask
-SQLAlchemy 
-emit
