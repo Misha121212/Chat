@@ -1,20 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Flask Chat Example</title>
+    <title>Message App Мужская Дружба</title>
+    <style>
+      #chat {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 100px); /* высота экрана минус высота формы */
+      }
+
+      #messages {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin: 0;
+        padding: 0;
+      }
+
+      #input-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+      }
+
+      #input {
+        flex-grow: 1;
+        margin-right: 10px;
+      }
+
+      #send {
+        flex-shrink: 0;
+      }
+    </style>
   </head>
   <body>
-    <h1>Flask Chat Example</h1>
+    <h1>Мужская Дружба</h1>
     <div id="chat">
       <ul id="messages">
         {% for message in messages %}
           <li>{{ message.text }}</li>
         {% endfor %}
       </ul>
-      <form>
+      <div id="input-container">
         <input id="input" type="text" autocomplete="off">
         <button id="send">Send</button>
-      </form>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
@@ -26,6 +56,7 @@
         var li = document.createElement('li');
         li.textContent = msg;
         document.getElementById('messages').appendChild(li);
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
       }
 
       // send message to server
